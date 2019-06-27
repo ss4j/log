@@ -4,6 +4,8 @@
 
 其主要为重新实现log4j2的Layout。
 
+## 依赖
+需要Java 8版本及以下，因为格式化日期使用了Java8的LocalDateTime
 
 
 ## 使用
@@ -12,7 +14,7 @@
 ```
 <dependency>
     <groupId>com.hfjy</groupId>
-    <artifactId>base-frame-log</artifactId>
+    <artifactId>log</artifactId>
     <version>1.0-SNAPSHOT</version>
 </dependency>
 ```
@@ -22,8 +24,7 @@
 
 ```
 <Console name="Console" target="SYSTEM_OUT">
-    <HFJsonLayout appImage="${appImage}" appVersion="${appVersion}" serverName="${serverName}"
-    serverIp="${serverIp}"/>
+    <HFJsonLayout/>
 </Console>
 ```
 
@@ -38,8 +39,8 @@ serverLog.info("参数测试, A: {}", "hello", info);
 4.输出，如下：
 
 ```
-{"appImage":"demoImage","appVersion":"V1","level":"info","logType":"system","msg":"Started DemoApplication in 1.558 seconds (JVM running for 7.265)\n","serverIp":"192.168.0.11","serverName":"demo-service"}
-{"appImage":"demoImage","appVersion":"V1","level":"info","logType":"system","msg":"这是一个测试!!\n","serverIp":"192.168.0.11","serverName":"demo-service"}
-{"appImage":"demoImage","appVersion":"V1","level":"info","logType":"server","msg":"参数测试, A: hello\n","node":"aaa-node","proto":"h2c","serverIp":"192.168.0.11","serverName":"demo-service","startTime":1558076347556,"weight":100}
-{"appImage":"demoImage","appVersion":"V1","level":"error","logType":"server","msg":"-_-出现异常了,原因：我是故意的, [com.liukun.demoservice.config.DemoStartup.run(DemoStartup.java:29), org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:804), org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:794), org.springframework.boot.SpringApplication.run(SpringApplication.java:324), org.springframework.boot.SpringApplication.run(SpringApplication.java:1260), org.springframework.boot.SpringApplication.run(SpringApplication.java:1248), com.liukun.demoservice.DemoApplication.main(DemoApplication.java:9)]\n","node":"aaa-node","proto":"h2c","serverIp":"192.168.0.11","serverName":"demo-service","startTime":1558076347556,"weight":100}
+2019/06/27 15:32:34.496 {"level":"info","logType":"system","msg":"这是一个测试!!\n"}
+2019/06/27 15:32:34.497 {"level":"info","logType":"server","msg":"参数测试, A: hello\n","node":"aaa-node","proto":"h2c","startTime":1561620754496,"weight":100}
+2019/06/27 15:32:34.499 {"level":"error","logType":"server","msg":"-_-出现异常了,原因：我是故意的, [com.liukun.demoservice.config.DemoStartup.run(DemoStartup.java:29), org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:804), org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:794), org.springframework.boot.SpringApplication.run(SpringApplication.java:324), org.springframework.boot.SpringApplication.run(SpringApplication.java:1260), org.springframework.boot.SpringApplication.run(SpringApplication.java:1248), com.liukun.demoservice.DemoApplication.main(DemoApplication.java:9)]\n","node":"aaa-node","proto":"h2c","startTime":1561620754496,"weight":100}
+2019/06/27 15:32:34.499 {"level":"warn","logType":"system","msg":"demoservice测试\n"}
 ```

@@ -4,8 +4,13 @@ import com.alibaba.fastjson.JSON;
 import com.hfjy.frame.log.model.*;
 import com.hfjy.frame.log.vo.AppConfig;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class CustomLogFactory {
-    public static String formatToJSON(AppConfig appConfig, AbstractBaseLogDefine logInfo) {
+    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.SSS");
+
+    public static String formatToJSON(AbstractBaseLogDefine logInfo) {
         AbstractCommonLogDefine logDefine;
         if (logInfo != null) {
             LogType logType = LogType.getLogType(logInfo.getLogType());
@@ -37,7 +42,8 @@ public class CustomLogFactory {
         } else {
             logDefine = SystemLog.build(logInfo);
         }
-        logDefine.init(appConfig).extend(logInfo);
-        return JSON.toJSONString(logDefine);
+        logDefine.extend(logInfo);
+
+        return formatter.format(LocalDateTime.now()) + " " + JSON.toJSONString(logDefine);
     }
 }

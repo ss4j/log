@@ -22,18 +22,15 @@ import java.nio.charset.Charset;
 @Plugin(name = "HFJsonLayout", category = Node.CATEGORY, elementType = Layout.ELEMENT_TYPE, printObject = true)
 public class HFJsonLayout extends AbstractStringLayout {
     private PatternLayout patternLayout;
-    private AppConfig appConfig;
 
     private HFJsonLayout(Configuration config, RegexReplacement replace, String eventPattern,
                               PatternSelector patternSelector, Charset charset, boolean alwaysWriteExceptions,
-                              boolean noConsoleNoAnsi, String headerPattern, String footerPattern,
-                         AppConfig appConfig) {
+                              boolean noConsoleNoAnsi, String headerPattern, String footerPattern) {
         super(config, charset, PatternLayout.newSerializerBuilder().setConfiguration(config).setReplace(replace)
                 .setPattern(headerPattern).setPatternSelector(patternSelector).setAlwaysWriteExceptions(alwaysWriteExceptions)
                 .setNoConsoleNoAnsi(noConsoleNoAnsi).build(), PatternLayout.newSerializerBuilder().setConfiguration(config).setReplace(replace)
                 .setPattern(footerPattern).setPatternSelector(patternSelector).setAlwaysWriteExceptions(alwaysWriteExceptions)
                 .setNoConsoleNoAnsi(noConsoleNoAnsi).build());
-        this.appConfig = appConfig;
 
         this.patternLayout = PatternLayout.newBuilder()
                 .withPattern(eventPattern)
@@ -68,7 +65,7 @@ public class HFJsonLayout extends AbstractStringLayout {
         logInfo.setLevel(event.getLevel().name().toLowerCase());
         logInfo.setMsg(message);
 
-        String jsonStr = CustomLogFactory.formatToJSON(appConfig, logInfo);
+        String jsonStr = CustomLogFactory.formatToJSON(logInfo);
         return jsonStr + "\n";
     }
 
@@ -82,14 +79,9 @@ public class HFJsonLayout extends AbstractStringLayout {
             @PluginAttribute(value = "alwaysWriteExceptions", defaultBoolean = true) final boolean alwaysWriteExceptions,
             @PluginAttribute(value = "noConsoleNoAnsi", defaultBoolean = false) final boolean noConsoleNoAnsi,
             @PluginAttribute("header") final String headerPattern,
-            @PluginAttribute("footer") final String footerPattern,
-            @PluginAttribute("appVersion") final String appVersion,
-            @PluginAttribute("serverName") final String serverName,
-            @PluginAttribute("appImage") final String appImage,
-            @PluginAttribute("serverIp") final String serverIp
+            @PluginAttribute("footer") final String footerPattern
     ) {
-        AppConfig appConfig = new AppConfig(appImage, appVersion, serverName, serverIp);
         return new HFJsonLayout(config, replace, pattern, patternSelector, charset, alwaysWriteExceptions,
-                noConsoleNoAnsi, headerPattern, footerPattern, appConfig);
+                noConsoleNoAnsi, headerPattern, footerPattern);
     }
 }
