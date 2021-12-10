@@ -11,7 +11,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <log4j.verson>2.11.2</log4j.verson>
+        <log4j.verson>2.15.0</log4j.verson>
     </properties>
     <dependencies>
         <dependency>
